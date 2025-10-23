@@ -5,12 +5,12 @@ library(dplyr)
 library(data.table)
 
 # Read data
-data <- fread("new DF site.csv", data.table = FALSE)
+data <- fread("restoration_metrics_clean_wide_v2.csv", data.table = FALSE)
 
 # Define diversity metrics and functional metrics
 diversity_metrics <- c("bacteria_hill_q0", "fungi_hill_q0", "plant_hill_q0")
 function_metrics <- c("agb", "forage_rfv", "plant_c", "plant_n", "root_c_stock", "soil_cn_ratio", "soil_moisture", "soil_total_c_stock", "emf")
-control_variables <- "TRI"
+control_variables <- "treatment_group"
 
 # Ensure all variables are numeric
 data[diversity_metrics] <- lapply(data[diversity_metrics], as.numeric)
@@ -77,12 +77,13 @@ edges <- data.frame(
 )
 
 # Save node and edge data to CSV files
-write.csv(nodes, "new DF sitenodes.csv", row.names = FALSE)
-write.csv(edges, "new DF siteedges.csv", row.names = FALSE)
+write.csv(nodes, "nodes.csv", row.names = FALSE)
+write.csv(edges, "edges.csv", row.names = FALSE)
 
 # Print results overview
 cat("Partial correlation analysis completed. All results saved, a preview is below:\n")
 print(head(results))
 
 cat("\nNode data saved to 'nodes.csv'.\n")
+
 cat("Edge data saved to 'edges.csv'.\n")
